@@ -1,19 +1,27 @@
 import { useState } from "react";
-import useAuth from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // ✅ sax
 import { useNavigate } from "react-router-dom";
-
+import InputField from "../components/ui/input";
+import Label from "../components/ui/Label";
+import Button from "../components/ui/Button";
 const Login = () => {
-  const { login } = useAuth();
+  const { login } = useAuth(); // ← sax
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(email, password);
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    await login(email, password); // sug login-ka dhamaado
     navigate("/dashboard");
-  };
+  } catch (err) {
+    console.log(err);
+    alert("Login failed");
+  }
+};
+
 
   return (
     <div className="flex min-h-screen w-full justify-center items-center p-6">
@@ -25,34 +33,28 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-gray-700 mb-2">Email</label>
-            <input
-              type="email"
-              placeholder="example@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+          <Label text="Email" /> Email
+
+          <InputField
+           type="email"
+            placeholder="example@gmail.com"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+           />
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-2">Password</label>
-            <input
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              
-            />
-          </div>
+         <Label text="Password" /> Password
+<InputField
+  type="password"          // ✔ sax
+  placeholder="••••••••"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
-          >
-            Login
-          </button>
+          </div>
+          <Button type="submit">Login</Button>
+
         </form>
       </div>
     </div>

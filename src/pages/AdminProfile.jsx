@@ -1,6 +1,6 @@
 import React from "react";
 import { FaEdit,   FaSignOutAlt, FaUser, FaPhoneAlt, FaStar    } from "react-icons/fa";
-import useAuth from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // ✅ sax
 import profile from "../assets/images/profile.png";
 import { useNavigate } from "react-router-dom";
 

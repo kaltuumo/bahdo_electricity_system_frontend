@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate  } from "react-router-dom";
 import { FaTachometerAlt, FaUser, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
-import useAuth from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // ← sax
 import { useState, useEffect } from "react";
 
 
@@ -21,9 +21,10 @@ const Sidebar = () => {
    const navigate = useNavigate();
  
  const handleLogout = () => {
-   logout();
-   navigate("/"); // → login page
- };
+  logout(); // nadiifi token/session-ka user-ka
+  navigate("/", { replace: true }); // → login page, back button ma shaqeyn doono
+};
+
 
   return (
     <div className="w-48 bg-gradient-to-b from-white-700 via-white-500 to-white-400 text-white p-5 flex flex-col">

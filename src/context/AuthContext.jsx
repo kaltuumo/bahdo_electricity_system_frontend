@@ -1,30 +1,45 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-  // Simple fake login (no UI validation here)
-  const login = (email, password) => {
-    // note: no validation in UI — backend/logic can check later
-    if (email === "admin@gmail.com" && password === "123456") {
-      setUser({ name: "Admin User", email });
-      return true;
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common["Authorization"];
     }
-    // return false when credentials wrong (logic only)
-    return false;
+  }, [token]);
+
+  const login = async (email, password) => {
+    try {
+      const res = await axios.post("http://localhost:7000/api/user/login", {
+        email,
+        password,
+      });
+      setToken(res.data.token);
+      setUser(res.data.user);
+      localStorage.setItem("token", res.data.token);
+    } catch (err) {
+      throw err; // si handleLogin uu u qabto error-ka
+    }
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("token");
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export default function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
