@@ -3,7 +3,7 @@ import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import UserProfile from "./pages/UserProfile";
 import UserRegistration from "./pages/UserRegistration";
 import UserList from "./pages/UserList";

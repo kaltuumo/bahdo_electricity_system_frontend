@@ -2,66 +2,116 @@ import React, { useEffect, useState } from "react";
 import Button from "../components/ui/Button";
 import InputField from "../components/ui/input";
 import Label from "../components/ui/Label";
-import { useNavigate } from "react-router-dom";
-
+import api from "../api/api";
+import { ApiConstants } from "../api/ApiConstants";
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
 
-  // SAMPLE DATA
-  const sampleUsers = [
-    {
-      userId: "6925a7fb8a2ecf92cb6059ca",
-      fullname: "Kaltuumo",
-      email: "kaltuumo905@gmail.com",
-      phone: "619050040",
-      createdDate: "2025-11-25",
-    },
-    {
-      userId: "6926f1a21f1c3bd56ac989c9",
-      fullname: "Osob",
-      email: "osob@gmail.com",
-      phone: "618337700",
-      createdDate: "2025-11-26",
-    },
-    {
-      userId: "6927633e7172223fffd856c6",
-      fullname: "Salma",
-      email: "salma@gmail.com",
-      phone: "619972392",
-      createdDate: "2025-11-26",
-    },
-    {
-      userId: "6927664a7172223fffd856cb",
-      fullname: "Abdiwali",
-      email: "abdi@gmail.com",
-      phone: "617890987",
-      createdDate: "2025-11-26",
-    },
-    {
-      userId: "692766b87172223fffd856d1",
-      fullname: "Nor",
-      email: "nor@gmail.com",
-      phone: "617890984",
-      createdDate: "2025-11-26",
-    },
-  ];
+  // Form values
+  const [fullname, setFullname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Loading State
+  const [loading, setLoading] = useState(false);
+
+  // Load sample users
+  useEffect(() => {
+    setUsers([
+      {
+        userId: "6925a7fb8a2ecf92cb6059ca",
+        fullname: "Kaltuumo",
+        email: "kaltuumo905@gmail.com",
+        phone: "619050040",
+        createdDate: "2025-11-25",
+      },
+    ]);
+  }, []);
+
+  // =========================
+  // GET ALL USERS
+  // =========================
+ const fetchUsers = async () => {
+  try {
+    const res = await api.get(`${ApiConstants.customerEndpoint}/all-customer`);
+    const data = res.data;
+
+    if (data.success) {
+      setUsers(data.data);
+    }
+  } catch (err) {
+    console.log("Fetch users error:", err);
+  }
+};
+
 
   useEffect(() => {
-    setUsers(sampleUsers);
+    fetchUsers();
   }, []);
+
+
+  // =============================
+  //   REGISTER USER FUNCTION
+  // =============================
+  const handleRegisterUser = async () => {
+    if (!fullname || !phone || !email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+    
+const res = await api.post(`${ApiConstants.userEndpoint}/signup`,        {
+          fullname,
+          phone,
+          email,
+          password,
+        }
+      );
+
+      console.log("Response:", res.data);
+
+      if (res.data.success) {
+        alert("User Created Successfully!");
+
+        // Add new user to table
+        setUsers((prev) => [
+          ...prev,
+          {
+            userId: res.data.result._id,
+            fullname: res.data.result.fullname,
+            email: res.data.result.email,
+            phone: res.data.result.phone,
+            createdDate: res.data.result.createdDate,
+          },
+        ]);
+
+        // Clear inputs
+        setFullname("");
+        setPhone("");
+        setEmail("");
+        setPassword("");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Error Creating User");
+    }
+
+    setLoading(false);
+  };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Title */}
-      <h1 className="text-3xl font-bold mb-6 text-white bg-gradient-to-r from-blue-500 to-indigo-600 p-4 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6 text-white bg-gradient-to-r from-[#357d95] to-blue-500 p-4 rounded-lg shadow-lg">
         Users List
       </h1>
 
-      {/* Search + Add */}
+      {/* Search */}
       <div className="mb-6 w-full flex items-end justify-between gap-4">
-        {/* Search */}
         <div className="flex-1">
           <Label text="Search User" />
           <InputField
@@ -70,30 +120,76 @@ const UserList = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+      </div>
 
-        {/* Add User Button */}
-        <div className="flex flex-col justify-end">
-          <Button
-            onClick={() => navigate("/user-register")}
-            className="w-auto px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold shadow-lg"
-          >
-            Add New User
-          </Button>
+      {/* Register Form */}
+      <div className="flex gap-4 mb-4">
+        <div className="flex flex-col gap-2 w-1/2">
+          <Label text="Fullname" />
+          <InputField
+            type="text"
+            placeholder="Enter fullname"
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+          />
         </div>
+
+        <div className="flex flex-col gap-2 w-1/2">
+          <Label text="Phone" />
+          <InputField
+            type="text"
+            placeholder="Enter Phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="flex gap-4 mb-4">
+        <div className="flex flex-col gap-2 w-1/2">
+          <Label text="Email" />
+          <InputField
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2 w-1/2">
+          <Label text="Password" />
+          <InputField
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <Button
+          onClick={handleRegisterUser}
+          className="!w-auto px-6 py-2 rounded-lg shadow bg-[#357d95] text-white hover:bg-[#2b6473]"
+        >
+          {loading ? "Saving..." : "Register User"}
+        </Button>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-300">
-        <table  className="min-w-full border-collapse"
-  style={{ backgroundColor: "#357d95" }}>
+        <table className="min-w-full border-collapse">
           <thead>
-            <tr className="text-white uppercase text-sm tracking-wider"
-  style={{ background: "linear-gradient(to right, #357d95, #4a90e2)" }}>
+            <tr
+              className="text-white uppercase text-sm tracking-wider"
+              style={{
+                background: "linear-gradient(to right, #357d95, #4a90e2)",
+              }}
+            >
               <th className="border p-3 text-left">Full Name</th>
-              <th className="border p-3 text-left">Email</th>
+              <th className="border p-3 text-left">Gender</th>
               <th className="border p-3 text-left">Phone</th>
               <th className="border p-3 text-left">Created Date</th>
-              <th className="border p-3 text-center">Actions</th>
             </tr>
           </thead>
 
@@ -108,24 +204,9 @@ const UserList = () => {
                   className={index % 2 === 0 ? "bg-white" : "bg-gray-100 hover:bg-gray-200"}
                 >
                   <td className="border p-3">{user.fullname}</td>
-                  <td className="border p-3">{user.email}</td>
+                  <td className="border p-3">{user.gender}</td>
                   <td className="border p-3">{user.phone}</td>
                   <td className="border p-3">{user.createdDate}</td>
-
-                  <td className="border p-3 text-center flex gap-2 justify-center">
-                    <Button
-                      onClick={() => alert("Edit UI coming soon")}
-                      className="w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => alert("Delete UI coming soon")}
-                      className="w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded shadow"
-                    >
-                      Delete
-                    </Button>
-                  </td>
                 </tr>
               ))}
           </tbody>
