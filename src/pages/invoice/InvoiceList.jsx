@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useInvoice from "../hooks/invoice/useInvoice";
-import useInvoiceForm from "../hooks/invoice/useInvoiceForm";
+import useInvoice from "../../hooks/invoice/useInvoice";
+import useInvoiceForm from "../../hooks/invoice/useInvoiceForm";
 
 const InvoiceList = () => {
   const navigate = useNavigate();
@@ -111,7 +111,7 @@ const InvoiceList = () => {
               <span
                 className="cursor-pointer text-blue-600 hover:text-blue-800"
                 onClick={() =>
-                  navigate("/invoice-details", { state: { invoice: i } })
+                  navigate("/invoice-payment", { state: { invoice: i } })
                 }
               >
                 👁️

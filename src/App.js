@@ -2,9 +2,7 @@ import React from "react";
 import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-
-import MainLayout from "./layout/MainLayout";   // <-- muhiim!!
-
+import MainLayout from "./layout/MainLayout";   
 import Login from "./pages/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import UserProfile from "./pages/UserProfile";
@@ -21,7 +19,8 @@ import HouseRegister from "./pages/house/HouseRegister";
 import HouseList from "./pages/house/HouseList";
 import ElectricRegister from "./pages/electric/ElectricRegister";
 import InvoiceRegister from "./pages/invoice/InvoiceRegister";
-import InvoiceList from "./pages/InvoiceList";
+import InvoiceList from "./pages/invoice/InvoiceList";
+import InvoicePayment from "./pages/invoice/InvoicePayment";
 
 function App() {
   return (
@@ -51,8 +50,7 @@ function App() {
             <Route path="/electric-register" element={<ElectricRegister />} />
             <Route path="/invoice-register" element={<InvoiceRegister />} />
             <Route path="/invoice-list" element={<InvoiceList />} />
-
-
+            <Route path="/invoice-payment" element={<InvoicePayment />} />
           </Route>
 
         </Routes>
