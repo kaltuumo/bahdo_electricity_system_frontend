@@ -74,7 +74,7 @@ const CustomerList = () => {
      {/* Register Form */}
 <div className="flex gap-4 mb-4 mt-10">
   <div className="flex-1">
-    <Label text="Fullname" />
+    <Label text="Fullname" /> Full Name
     <InputField
       value={fullname}
       onChange={(e) => setFullname(e.target.value)}
@@ -82,8 +82,8 @@ const CustomerList = () => {
     />
   </div>
 
-  <div className="flex-1">
-    <Label text="Phone" />
+  <div className="flex-1"> 
+    <Label text="Phone" /> Phone Number
     <InputField
       value={phone}
       onChange={(e) => setPhone(e.target.value)}
@@ -94,7 +94,7 @@ const CustomerList = () => {
 
  <div className="flex gap-4 mb-4">
   <div className="flex-1">
-    <Label text="Gender" />
+    <Label text="Gender" /> Gender
     <InputField
       value={gender}
       onChange={(e) => setGender(e.target.value)}
@@ -103,7 +103,7 @@ const CustomerList = () => {
    </div>
 
    <div className="flex-1">
-    <Label text="Status" />
+    <Label text="Status" /> Marital Status
     <InputField
       value={statusPerson}
       onChange={(e) => setStatusPerson(e.target.value)}
@@ -116,7 +116,7 @@ const CustomerList = () => {
 
  <div className="flex gap-4 mb-4">
   <div className="flex-1">
-    <Label text="Damiin" />
+    <Label text="Damiin" /> Damiin Name
     <InputField
       value={damiin}
       onChange={(e) => setDamiin(e.target.value)}
@@ -125,7 +125,7 @@ const CustomerList = () => {
    </div>
 
    <div className="flex-1">
-    <Label text="damiinPhone" />
+    <Label text="damiinPhone" /> Damiin Phone
     <InputField
       value={damiinPhone}
       onChange={(e) => setDamiinPhone(e.target.value)}
