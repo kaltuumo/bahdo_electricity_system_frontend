@@ -44,8 +44,8 @@ const InvoiceList = () => {
         <table className="min-w-full text-left text-sm border-collapse">
           <thead>
             <tr className="bg-[#2e6f7e] text-white text-[15px]">
-              <th className="px-4 py-3 border border-[#1f3e4d]">#</th>
-              <th className="px-4 py-3 border border-[#1f3e4d]">Bill No</th>
+              <th className="px-3 py-2 border border-[#1f3e4d]">#</th>
+              <th className="px-3 py-2 border border-[#1f3e4d]">Bill No</th>
               <th className="px-4 py-3 border border-[#1f3e4d]">Macaamiil</th>
               <th className="px-4 py-3 border border-[#1f3e4d]">Total</th>
               <th className="px-4 py-3 border border-[#1f3e4d]">Status</th>
@@ -89,21 +89,21 @@ const InvoiceList = () => {
                   key={i._id}
                   className={`${rowColor} hover:bg-[#f1ebe4] transition border-b border-[#c9c3bd]`}
                 >
-                  <td className="px-4 py-3 border border-[#d2ccc6]">{index + 1}</td>
-                  <td className="px-4 py-3 border border-[#d2ccc6]">{i.billNo}</td>
+                  <td className="px-3 py-2 border border-[#d2ccc6]">{index + 1}</td>
+                  <td className="px-3 py-2 border border-[#d2ccc6]">{i.billNo}</td>
 
-                  <td className="px-4 py-3 border border-[#d2ccc6]">
+                  <td className="px-3 py-2 border border-[#d2ccc6]">
                     {i.fullname && i.houseNo && i.watchNo
                       ? `${i.fullname} - ${i.houseNo} - ${i.watchNo}`
                       : "-"}
                   </td>
 
-                  <td className="px-4 py-3 border border-[#d2ccc6]">
+                  <td className="px-3 py-2 border border-[#d2ccc6]">
                     {totalAmount.toFixed(2)}
                   </td>
 
                   <td
-                    className={`px-4 py-3 border border-[#d2ccc6] font-semibold ${
+                    className={`px-3 py-2 border border-[#d2ccc6] font-semibold ${
                       i.status === "Paid"
                         ? "text-green-700"
                         : i.status === "Unpaid"
@@ -113,20 +113,20 @@ const InvoiceList = () => {
                   >
                     {i.status}
                   </td>
-                   <td className="px-4 py-3 border border-[#d2ccc6]">
+                   <td className="px-3 py-2 border border-[#d2ccc6]">
                     {paid.toFixed(2)}
                   </td>
-                  <td className="px-4 py-3 border border-[#d2ccc6]">
+                  <td className="px-3 py-2 border border-[#d2ccc6]">
                     {remaining.toFixed(2)}
                   </td>
 
-                  <td className="px-4 py-3 border border-[#d2ccc6]">
+                  <td className="px-3 py-2 border border-[#d2ccc6]">
                     {i.createdDate && i.createdTime
                       ? `${i.createdDate} ${i.createdTime}`
                       : "-"}
                   </td>
 
-                  <td className="px-4 py-3 border border-[#d2ccc6] flex gap-3 text-xl">
+                  <td className="px-3 py-2 border border-[#d2ccc6] flex gap-3 text-xl">
                     <span
                       className="cursor-pointer text-orange-600 hover:text-orange-800"
                       onClick={() =>
