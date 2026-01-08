@@ -1,154 +1,78 @@
-import { Link, useLocation, useNavigate  } from "react-router-dom";
-import {FaDollarSign, FaFileInvoice, FaTachometerAlt, FaUser, FaSignOutAlt, FaUserFriends, FaGlobe, FaPlus, FaMapMarkerAlt, FaHome  } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaDollarSign, FaFileInvoice, FaTachometerAlt, FaUser, FaSignOutAlt, FaUserFriends, FaGlobe, FaPlus, FaMapMarkerAlt, FaHome } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext"; 
 import { useState, useEffect } from "react";
-
 
 const Sidebar = () => {
   const { logout, user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [activePath, setActivePath] = useState(location.pathname);
 
-  const [activePath, setActivePath] = useState("");
-  useEffect(() => {
-    if(location.pathname !== "/dashboard"){
-      setActivePath(location.pathname);
-    }
-  }, [location.pathname]);
+  const handleLinkClick = (path) => setActivePath(path);
 
-  const handleLinkClick = (path) => {
-    setActivePath(path);
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
   };
-   const navigate = useNavigate();
- 
- const handleLogout = () => {
-  logout(); // nadiifi token/session-ka user-ka
-  navigate("/", { replace: true }); // → login page, back button ma shaqeyn doono
-};
 
+  const menuItems = [
+    { name: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
+    { name: "User Profile", icon: <FaUser />, path: "/user-profile" },
+    { name: "User List", icon: <FaUserFriends />, path: "/user-list" },
+    { name: "Customer", icon: <FaPlus />, path: "/customer-list" },
+    { name: "Zone", icon: <FaGlobe />, path: "/zone-list" },
+    { name: "Area", icon: <FaMapMarkerAlt />, path: "/area-list" },
+    { name: "Houses", icon: <FaHome />, path: "/house-list" },
+    { name: "Invoices", icon: <FaFileInvoice />, path: "/invoice-list" },
+    { name: "Lacag Qabasho", icon: <FaDollarSign />, path: "/lacag-qabasho" },
+  ];
 
   return (
-    <div className="w-48 bg-gradient-to-b from-white-700 via-white-500 to-white-400 text-white p-5 flex flex-col">
+    <div className="w-64 min-h-screen bg-gradient-to-b from-blue-50 via-white to-white shadow-lg flex flex-col p-5">
+      {/* Logo */}
+      <div className="flex items-center gap-2 mb-8">
+        <span className="text-2xl font-bold text-blue-900">Bahdo Electricity</span>
+      </div>
 
-         {/* Logo */}
-<div className="flex items-center gap-1 mb-5">
-  {/* <img
-    src={logo}
-    alt="Logo"
-    className="w-20 h-20 object-contain rounded"
-  /> */}
-  <span className="font-bold text-md text-black">Bahdo Electricity</span>
-  </div>
-
-
-
-      {/* Menu */}
+      {/* Menu Items */}
       <ul className="flex flex-col gap-2 flex-1">
-      <li>
-  <Link
-    to="/dashboard"
-    onClick={() => handleLinkClick("/dashboard")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/dashboard" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaTachometerAlt className="text-black-500 opacity-70" /> Dashboard
-  </Link>
-</li>
-
-  <li>
-  <Link
-    to="/user-profile"
-    onClick={() => handleLinkClick("/user-profile")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/admin-profile" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaUser className="text-black-500 opacity-70" /> User Profile
-  </Link>
-</li>
-
-<li>
-  {/* <Link
-    to="/user-register"
-    onClick={() => handleLinkClick("/user-register")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/user-register" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaUserPlus className="text-black-500 opacity-70" /> Register User
-  </Link> */}
-  <Link
-    to="/user-list"
-    onClick={() => handleLinkClick("/user-list")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/user-list" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaUserFriends  className="text-black-500 opacity-70" /> User List
-  </Link>
-   <Link
-    to="/customer-list"
-    onClick={() => handleLinkClick("/customer-list")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/customer-list" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaPlus   className="text-black-500 opacity-70" /> Customer
-  </Link>
-  <Link
-    to="/zone-list"
-    onClick={() => handleLinkClick("/zone-list")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/zone-list" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaGlobe   className="text-black-500 opacity-70" /> Zone
-  </Link>
-  <Link
-    to="/area-list"
-    onClick={() => handleLinkClick("/area-list")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/area-list" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaMapMarkerAlt     className="text-black-500 opacity-70" /> Area
-  </Link>
-   <Link
-    to="/house-list"
-    onClick={() => handleLinkClick("/house-list")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/house-list" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaHome className="text-black-500 opacity-70" /> Houses
-  </Link>
-  <Link
-    to="/invoice-list"
-    onClick={() => handleLinkClick("/invoice-list")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/invoice-list" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaFileInvoice  className="text-black-500 opacity-70" /> Biilasha
-  </Link>
-   <Link
-    to="/lacag-qabasho"
-    onClick={() => handleLinkClick("/lacag-qabasho")}
-    className={`flex items-center gap-2 px-3 py-2 rounded transition text-sm text-black
-      ${activePath === "/lacag-qabasho" ? "bg-blue-900 shadow-md" : "hover:bg-blue-800"}`}
-  >
-    <FaDollarSign  className="text-black-500 opacity-70" /> Lacag Qabasho
-  </Link>
-</li>
-
-{/* Logout */}
-
-
+        {menuItems.map((item) => (
+          <li key={item.path}>
+            <Link
+              to={item.path}
+              onClick={() => handleLinkClick(item.path)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
+                ${activePath === item.path 
+                  ? "bg-blue-900 text-white shadow-lg" 
+                  : "text-blue-900 hover:bg-blue-100 hover:text-blue-700"}
+              `}
+            >
+              <span className="text-lg">{item.icon}</span>
+              {item.name}
+            </Link>
+          </li>
+        ))}
       </ul>
 
-                   {/* User Info */}
-
-{/* Logout Button */}
-<button
-  onClick={handleLogout}
-  className="flex items-center gap-2 px-3 py-2 mt-3 bg-red-500 hover:bg-red-600 rounded transition text-white"
->
-  <FaSignOutAlt className="ml-0" /> {/* logout icon */}
-  <span className="font-medium">Logout</span>
-</button>
-
-
+      {/* User Info & Logout */}
+      <div className="mt-auto pt-4 border-t border-blue-200">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-blue-300 flex items-center justify-center text-white font-bold">
+            {user?.name?.charAt(0) || "U"}
+          </div>
+          <div>
+            <p className="text-blue-900 font-semibold">{user?.name || "User Name"}</p>
+            <p className="text-blue-500 text-xs">{user?.email || "user@example.com"}</p>
+          </div>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 w-full px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition-all"
+        >
+          <FaSignOutAlt /> Logout
+        </button>
+      </div>
     </div>
   );
 };

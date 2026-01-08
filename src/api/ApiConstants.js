@@ -1,4 +1,4 @@
-const BASE_URL = "https://bahdo-electricity-api.vercel.app/api";
+const BASE_URL = "http://localhost:7000/api";
 export const ApiConstants = {
   baseUrl: BASE_URL,
 

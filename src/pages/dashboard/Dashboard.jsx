@@ -4,16 +4,16 @@ import Card from "../../components/ui/Card";
 import GenderBarChart from "./GenderBarChart";
 import GenderPieChart from "./GenderPieChart";
 import useInvoice from "../../hooks/invoice/useInvoice";
-import useCustomer from "../../hooks/customer/useCustomer";
+import useCustomers from '../../hooks/customer/useCustomers';
 import { useAuth } from "../../context/AuthContext"; // ✅ Fixed import path
 
 const Dashboard = () => {
   const { invoices } = useInvoice();
-  const { customer } = useCustomer();
+  const { customers } = useCustomers();
   const { user } = useAuth(); // ✅ Now used
 
   // Count totals
-  const totalCustomers = customer.length;
+  const totalCustomers = customers.length;
   const totalPaid = invoices.filter(i => i.status === "Paid").length;
   const totalUnpaid = invoices.filter(i => i.status === "Unpaid").length;
   const totalPending = invoices.filter(i => i.status === "Pending").length;

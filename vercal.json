@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://bahdo_electricity_system_backend.vercel.app/api/$1"
-    }
-  ]
-}
